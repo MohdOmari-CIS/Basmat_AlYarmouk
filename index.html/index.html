@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3eb">
+  <meta name="description" content="بصمة اليرموك — منصة أردننا هويتنا لحفظ وتوثيق التراث المادي والشفهي الأردني.">
+  <title>بصمة اليرموك | أردننا هويتنا</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap');
+
+    :root {
+      color-scheme: light;
+      --paper: #f6f3eb;
+      --surface: #fffdf8;
+      --ink: #1c2a23;
+      --muted: #657269;
+      --olive: #65734d;
+      --olive-dark: #445239;
+      --clay: #b66545;
+      --sand: #e8dfce;
+      --line: rgba(28, 42, 35, .13);
+      --shadow: 0 18px 55px rgba(48, 50, 37, .1);
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --paper: #171d19;
+      --surface: #202923;
+      --ink: #f2efe6;
+      --muted: #b4beb4;
+      --olive: #aabb87;
+      --olive-dark: #d3ddb6;
+      --clay: #db987a;
+      --sand: #303a31;
+      --line: rgba(242, 239, 230, .14);
+      --shadow: 0 18px 55px rgba(0, 0, 0, .24);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Alexandria", "Noto Kufi Arabic", Tahoma, sans-serif;
+      line-height: 1.85;
+      transition: background .25s, color .25s;
+    }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; }
+    .container { width: min(1160px, calc(100% - 44px)); margin-inline: auto; }
+    .eyebrow { color: var(--clay); font-size: .78rem; font-weight: 700; letter-spacing: .08em; }
+    .section { padding: 100px 0; }
+    .section-head { max-width: 700px; margin-bottom: 38px; }
+    .section-head h2 { margin: 8px 0 12px; font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.35; }
+    .section-head p { color: var(--muted); margin: 0; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border: 1px solid transparent; border-radius: 999px; padding: 12px 22px;
+      background: var(--olive-dark); color: var(--surface); font-weight: 700;
+      cursor: pointer; transition: transform .2s, background .2s, border .2s;
+    }
+    .button:hover { transform: translateY(-2px); background: var(--clay); }
+    .button-outline { background: transparent; color: var(--ink); border-color: var(--line); }
+    .button-outline:hover { color: var(--surface); border-color: var(--clay); }
+    .icon-button {
+      display: inline-grid; place-items: center; width: 44px; height: 44px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 50%;
+      cursor: pointer; font-size: 1.1rem;
+    }
+
+    header {
+      position: sticky; inset-block-start: 0; z-index: 20;
+      background: color-mix(in srgb, var(--paper) 91%, transparent);
+      border-bottom: 1px solid var(--line); backdrop-filter: blur(16px);
+    }
+    .nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 800; white-space: nowrap; }
+    .brand img { width: 51px; height: 51px; border-radius: 50%; object-fit: cover; background: white; }
+    .nav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 27px); color: var(--muted); font-size: .8rem; }
+    .nav-links a:hover { color: var(--clay); }
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .nav-join { padding: 9px 16px; font-size: .8rem; }
+    .menu-toggle { display: none; }
+
+    .hero {
+      min-height: 660px; display: grid; align-items: center; overflow: hidden; position: relative;
+      background:
+        radial-gradient(ellipse at 75% 40%, rgba(196, 128, 83, .25), transparent 33%),
+        radial-gradient(ellipse at 22% 78%, rgba(112, 130, 84, .2), transparent 34%),
+        linear-gradient(130deg, var(--paper), color-mix(in srgb, var(--sand) 55%, var(--paper)));
+    }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; border: 1px solid color-mix(in srgb, var(--olive) 22%, transparent);
+      width: 520px; height: 520px; border-radius: 47% 53% 44% 56%; transform: rotate(28deg);
+      inset-inline-start: -100px; top: 60px;
+    }
+    .hero::after { width: 450px; height: 450px; transform: rotate(-18deg); inset-inline-start: -65px; top: 96px; }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 45px; padding: 75px 0; }
+    .hero-copy { max-width: 700px; }
+    .hero-copy h1 { font-size: clamp(2.5rem, 5.7vw, 5.2rem); line-height: 1.2; margin: 12px 0 8px; letter-spacing: -.05em; }
+    .hero-copy h1 span { color: var(--clay); }
+    .hero-tagline { font-size: clamp(1.02rem, 2vw, 1.35rem); font-weight: 600; color: var(--olive-dark); margin: 0 0 14px; }
+    .hero-copy > p:not(.hero-tagline) { color: var(--muted); max-width: 620px; margin: 0 0 27px; }
+    .hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .hero-note { display: flex; align-items: center; gap: 11px; color: var(--muted); font-size: .76rem; margin-top: 36px; }
+    .hero-note::before { content: ""; width: 37px; height: 1px; background: var(--clay); }
+    .hero-art { min-height: 400px; display: grid; place-items: center; position: relative; }
+    .petra-card {
+      width: min(100%, 380px); aspect-ratio: .91; border-radius: 48% 48% 24px 24px;
+      background:
+        linear-gradient(180deg, rgba(33, 37, 28, .05) 22%, rgba(33, 37, 28, .7)),
+        radial-gradient(ellipse at 50% 35%, #e1ad76 0 8%, transparent 8.5%),
+        linear-gradient(150deg, transparent 0 42%, #bb7251 42% 52%, #8e503a 52% 64%, #cf8d63 64% 75%, #6f4835 75%),
+        linear-gradient(180deg, #c8d0bc, #e6bc8b 48%, #9a6047);
+      box-shadow: var(--shadow); position: relative; overflow: hidden; border: 8px solid color-mix(in srgb, var(--surface) 72%, transparent);
+    }
+    .petra-card::before {
+      content: ""; position: absolute; width: 43%; height: 25%; inset-inline-start: 29%; top: 34%;
+      background: linear-gradient(90deg, #734837 0 7%, #e4ad76 7% 15%, #7b4a38 15% 23%, #e2a36e 23% 31%, #714638 31% 39%, #e0a16c 39% 47%, #734837 47% 55%, #dda06d 55% 63%, #754a39 63% 71%, #e6b07a 71% 79%, #6b4234 79%);
+      clip-path: polygon(0 100%, 7% 0, 15% 100%, 23% 0, 31% 100%, 39% 0, 47% 100%, 55% 0, 63% 100%, 71% 0, 79% 100%, 87% 0, 100% 100%);
+      opacity: .9;
+    }
+    .petra-card::after {
+      content: "البتراء · إرثٌ لا يغيب"; position: absolute; inset-inline: 20px; bottom: 20px;
+      color: white; font-weight: 700; font-size: .9rem;
+    }
+    .art-label {
+      position: absolute; padding: 11px 15px; background: var(--surface); border: 1px solid var(--line);
+      border-radius: 14px; box-shadow: var(--shadow); font-size: .8rem; font-weight: 600;
+    }
+    .art-label.one { inset-inline-end: -10px; top: 55px; transform: rotate(4deg); }
+    .art-label.two { inset-inline-start: -5px; bottom: 67px; transform: rotate(-5deg); }
+    .art-label span { font-size: 1.1rem; margin-inline-end: 6px; }
+
+    .stats { padding: 0 0 30px; margin-top: -1px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); }
+    .stat { text-align: center; padding: 25px 15px; position: relative; }
+    .stat + .stat::before { content: ""; width: 1px; height: 48%; position: absolute; inset-inline-start: 0; top: 26%; background: var(--line); }
+    .stat strong { display: block; color: var(--clay); font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.4; }
+    .stat span { color: var(--muted); font-size: .78rem; }
+
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 75px; }
+    .about-mark { min-height: 360px; border-radius: 34px; background: var(--sand); display: grid; place-items: center; position: relative; overflow: hidden; }
+    .about-mark::before, .about-mark::after { content: ""; position: absolute; border: 1px solid var(--olive); border-radius: 48%; width: 280px; height: 380px; transform: rotate(35deg); opacity: .4; }
+    .about-mark::after { transform: rotate(-35deg); }
+    .about-mark img { width: 185px; height: 185px; object-fit: cover; border-radius: 50%; z-index: 1; border: 8px solid var(--surface); }
+    .about-copy h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.4; margin: 9px 0 18px; }
+    .about-copy p { color: var(--muted); }
+    .about-quote { border-inline-start: 3px solid var(--clay); padding-inline-start: 18px; margin-top: 25px; color: var(--olive-dark); font-weight: 600; }
+
+    .heritage { background: color-mix(in srgb, var(--sand) 38%, var(--paper)); }
+    .tools-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 25px; }
+    .search-wrap { position: relative; flex: 1 1 250px; max-width: 370px; }
+    .search-wrap input { width: 100%; padding: 12px 44px 12px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); outline: none; }
+    .search-wrap input:focus { border-color: var(--olive); box-shadow: 0 0 0 3px color-mix(in srgb, var(--olive) 18%, transparent); }
+    .search-wrap::before { content: "⌕"; position: absolute; right: 17px; top: 2px; font-size: 1.6rem; color: var(--muted); }
+    .filters { display: flex; gap: 8px; overflow-x: auto; }
+    .filter-chip { white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px; background: transparent; cursor: pointer; color: var(--muted); font-size: .8rem; }
+    .filter-chip.active, .filter-chip:hover { background: var(--olive-dark); color: var(--surface); border-color: var(--olive-dark); }
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .heritage-card { min-height: 220px; display: flex; flex-direction: column; padding: 23px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); transition: transform .2s, box-shadow .2s; }
+    .heritage-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .heritage-card[hidden] { display: none; }
+    .card-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: color-mix(in srgb, var(--olive) 17%, transparent); font-size: 1.2rem; }
+    .heritage-card h3 { margin: 15px 0 5px; font-size: 1rem; }
+    .heritage-card p { color: var(--muted); font-size: .83rem; margin: 0; }
+    .card-tag { margin-top: auto; padding-top: 15px; color: var(--clay); font-size: .7rem; font-weight: 700; }
+    .empty-state { display: none; text-align: center; color: var(--muted); padding: 30px; }
+    .empty-state.show { display: block; }
+    .riddles { margin-top: 55px; }
+    .riddles h3 { margin-bottom: 18px; font-size: 1.4rem; }
+    .riddle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .riddle { text-align: right; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; padding: 20px; cursor: pointer; }
+    .riddle p { margin: 5px 0 0; color: var(--muted); font-size: .85rem; }
+    .riddle .answer { color: var(--olive-dark); font-weight: 700; display: none; }
+    .riddle.revealed .answer { display: block; }
+    .riddle.revealed .hint { display: none; }
+
+    .podcast-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 25px; padding: 30px; border: 1px solid var(--line); background: var(--surface); border-radius: 24px; box-shadow: var(--shadow); }
+    .podcast-icon { width: 82px; height: 82px; display: grid; place-items: center; border-radius: 22px; background: var(--sand); font-size: 2.1rem; }
+    .podcast-card h3 { margin: 0 0 6px; }
+    .podcast-card p { margin: 0; color: var(--muted); font-size: .86rem; }
+    .wave { display: flex; gap: 4px; align-items: center; height: 42px; }
+    .wave i { display: block; height: 12px; width: 4px; border-radius: 9px; background: var(--clay); opacity: .7; }
+    .wave i:nth-child(3n) { height: 30px; } .wave i:nth-child(4n) { height: 21px; }
+    .wave i:nth-child(2n) { height: 16px; }
+    .podcast-status { color: var(--clay); font-size: .75rem; font-weight: 700; margin-top: 10px; }
+
+    .atlas { background: color-mix(in srgb, var(--sand) 38%, var(--paper)); }
+    .atlas-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+    .map-panel { min-height: 400px; padding: 27px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); }
+    .map-caption { color: var(--muted); font-size: .78rem; margin: 0 0 20px; }
+    .governorates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .governorate { border: 1px solid var(--line); border-radius: 12px; padding: 12px 7px; background: var(--paper); cursor: pointer; font-size: .78rem; transition: .2s; }
+    .governorate:hover, .governorate.active { background: var(--olive-dark); color: var(--surface); border-color: var(--olive-dark); }
+    .governorate span { display: block; font-size: .62rem; opacity: .7; }
+    .governorate-info { border-radius: 24px; padding: 32px; background: var(--olive-dark); color: var(--surface); display: flex; flex-direction: column; justify-content: center; }
+    .governorate-info .eyebrow { color: #e0b294; }
+    .governorate-info h3 { font-size: 1.7rem; margin: 8px 0; }
+    .governorate-info p { color: color-mix(in srgb, var(--surface) 79%, transparent); margin: 0; }
+    .governorate-info .place { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.2); font-size: .83rem; }
+    .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+    .feature-card { border: 1px solid var(--line); border-radius: 19px; padding: 24px; background: var(--surface); }
+    .feature-card h3 { margin: 8px 0; font-size: 1.1rem; }
+    .feature-card p { color: var(--muted); font-size: .83rem; margin: 0 0 16px; }
+    .ar-model { min-height: 185px; display: grid; place-items: center; border-radius: 14px; background: radial-gradient(circle, color-mix(in srgb, var(--clay) 20%, transparent), transparent 65%), var(--paper); font-size: 4rem; position: relative; }
+    .ar-model small { position: absolute; bottom: 10px; font-size: .68rem; color: var(--muted); }
+    .quiz-box { display: flex; flex-direction: column; }
+    .quiz-progress { height: 5px; background: var(--sand); border-radius: 9px; overflow: hidden; margin: 12px 0 15px; }
+    .quiz-progress span { height: 100%; width: 0; display: block; background: var(--clay); transition: width .25s; }
+    .quiz-question { font-size: .88rem; font-weight: 700; min-height: 54px; }
+    .quiz-options { display: grid; gap: 7px; }
+    .quiz-option { text-align: right; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: transparent; cursor: pointer; font-size: .75rem; }
+    .quiz-option:hover:not(:disabled) { border-color: var(--olive); }
+    .quiz-option.correct { border-color: #628653; background: rgba(98,134,83,.15); }
+    .quiz-option.wrong { border-color: #ba604d; background: rgba(186,96,77,.14); }
+    .quiz-result { display: none; margin-top: 12px; padding: 12px; background: var(--paper); border-radius: 12px; font-size: .8rem; }
+    .quiz-result.show { display: block; }
+    .quiz-result strong { display: block; font-size: 1rem; color: var(--olive-dark); }
+    .quiz-result p { margin: 8px 0; color: var(--muted); font-size: .76rem; }
+    .quiz-result button { display: block; margin-top: 9px; }
+    .quiz-feedback { min-height: 24px; color: var(--muted); font-size: .72rem; margin-top: 7px; }
+
+    footer { padding: 55px 0 25px; background: #222c25; color: #f5f2e9; }
+    .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 38px; padding-bottom: 35px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
+    .footer-brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+    footer p, footer .footer-links { color: #c1c9bd; font-size: .82rem; }
+    .footer-links { display: grid; gap: 7px; }
+    .footer-links a:hover { color: #e7b08e; }
+    .social-link { display: inline-flex; gap: 8px; align-items: center; }
+    .copyright { border-top: 1px solid rgba(255,255,255,.16); padding-top: 18px; text-align: center; color: #c1c9bd; font-size: .75rem; }
+
+    .modal { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; padding: 20px; background: rgba(15, 20, 17, .65); }
+    .modal.open { display: grid; }
+    .modal-card { position: relative; width: min(480px, 100%); background: var(--surface); border-radius: 22px; padding: 30px; box-shadow: var(--shadow); }
+    .modal-close { position: absolute; top: 15px; inset-inline-end: 15px; }
+    .modal-card h3 { margin: 12px 0 5px; }
+    .modal-card p { color: var(--muted); margin: 0; }
+    .toast { position: fixed; z-index: 30; bottom: 20px; inset-inline-start: 20px; padding: 12px 18px; border-radius: 12px; background: var(--ink); color: var(--paper); opacity: 0; transform: translateY(12px); transition: .25s; pointer-events: none; font-size: .8rem; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s, transform .55s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 11px; font-size: .72rem; }
+      .hero-inner { grid-template-columns: 1fr .8fr; gap: 20px; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { gap: 38px; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 30px, 540px); }
+      .section { padding: 70px 0; }
+      .nav { min-height: 68px; }
+      .brand { font-size: .78rem; }
+      .brand img { width: 43px; height: 43px; }
+      .menu-toggle { display: inline-grid; }
+      .nav-links {
+        display: none; position: absolute; top: 68px; inset-inline: 0; padding: 18px 22px 23px;
+        flex-direction: column; align-items: stretch; background: var(--surface); border-bottom: 1px solid var(--line);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 7px; font-size: .86rem; }
+      .nav-join { display: none; }
+      .hero { min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; padding: 63px 0 32px; }
+      .hero-art { min-height: 315px; }
+      .petra-card { width: 260px; }
+      .hero::before { inset-inline-start: -250px; }
+      .hero::after { inset-inline-start: -220px; }
+      .art-label.one { inset-inline-end: 2px; top: 26px; }
+      .art-label.two { inset-inline-start: 0; bottom: 30px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(3)::before { display: none; }
+      .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+      .about-grid, .atlas-layout { grid-template-columns: 1fr; gap: 28px; }
+      .about-mark { min-height: 250px; }
+      .about-mark img { width: 150px; height: 150px; }
+      .cards-grid { gap: 11px; }
+      .heritage-card { min-height: 215px; padding: 17px; }
+      .riddle-grid { grid-template-columns: 1fr; }
+      .podcast-card { grid-template-columns: auto 1fr; padding: 21px; gap: 15px; }
+      .podcast-card .wave { display: none; }
+      .features-grid { grid-template-columns: 1fr; }
+      .map-panel { padding: 20px; }
+      .governorates { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+      .footer-grid > :first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 390px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .tools-row { align-items: stretch; }
+      .search-wrap { max-width: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-grid > :first-child { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav container" aria-label="التنقل الرئيسي">
+      <a class="brand" href="#home" aria-label="بصمة اليرموك - الصفحة الرئيسية">
+        <img src="../Media/images/logo.jpg" alt="شعار فريق بصمة اليرموك">
+        <span>بصمة اليرموك</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">عن المبادرة</a><a href="#heritage">موسوعة التراث</a><a href="#stories">الحكايات</a><a href="#atlas">الأطلس التفاعلي</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-button" id="themeToggle" type="button" aria-label="تفعيل الوضع الداكن" title="الوضع الداكن">🌙</button>
+        <a class="button nav-join" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">انضم إلينا ↗</a>
+        <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-inner container">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">حكاية وطن… وبصمة شباب</span>
+          <h1>فريق <span>بصمة اليرموك</span></h1>
+          <p class="hero-tagline">منصة أردننا هويتنا – الأصالة بروح عصرية.</p>
+          <p>منصة رقمية جامعة تهدف إلى حفظ وتوثيق التراث المادي والشفهي الأردني، والربط بين أصل التاريخ وتطلعات المستقبل.</p>
+          <div class="hero-cta">
+            <a class="button" href="#heritage">اكتشف حكايتنا <span>←</span></a>
+            <a class="button button-outline" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">كن جزءًا من الأثر ↗</a>
+          </div>
+          <div class="hero-note">من جامعة اليرموك إلى كل الأردن</div>
+        </div>
+        <div class="hero-art reveal" aria-label="تصميم مستوحى من البتراء والطبيعة الأردنية">
+          <div class="petra-card" role="img" aria-label="تصميم فني مستوحى من البتراء المدينة الوردية"></div>
+          <div class="art-label one"><span>🧵</span> خيوط الحكاية</div>
+          <div class="art-label two"><span>🫒</span> جذورنا حيّة</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats container" aria-label="أرقام المنصة">
+      <div class="stats-grid reveal">
+        <div class="stat"><strong data-count="12">0</strong><span>محافظة أردنية</span></div>
+        <div class="stat"><strong data-count="50">0</strong><span>حكاية ومثل شعبي</span></div>
+        <div class="stat"><strong data-count="20">0</strong><span>مصطلح وأداة تراثية</span></div>
+        <div class="stat"><strong data-count="1000">0</strong><span>زائر ومستكشف للمنصة</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="about-grid container">
+        <div class="about-mark reveal"><img src="../Media/images/logo.jpg" alt="شعار فريق بصمة اليرموك"></div>
+        <div class="about-copy reveal">
+          <span class="eyebrow">من نحن</span>
+          <h2>التراث هوية، والانتماء فعل وعمل</h2>
+          <p>انطلاقاً من إيماننا المطلق بأن التراث هوية، والانتماء فعل وعمل، نُظّمت سلسلة مبادرات «أردننا هويتنا» بإشراف فريق بصمة اليرموك في جامعة اليرموك.</p>
+          <p>وُلدت هذه السلسلة لتتجاوز الفعاليات الموسمية إلى مسار وطني ومجتمعي مستدام، يهدف إلى ترسيخ الهوية الوطنية الأردنية، وإحياء التراث المادي والشفهي، والربط بين أصالة الماضي وابتكارات الشباب الرقمية. نحن نؤمن بأن الحفاظ على التراث يبدأ بالوعي، وينتقل بالتطبيق، ويستمر بشغف الشباب.</p>
+          <div class="about-quote">حكايتنا منّا… وبصمتنا للأجيال القادمة.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section heritage" id="heritage">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">موسوعة التراث والفلكلور</span>
+          <h2>تفاصيل صغيرة… تحكي حكاية كبيرة</h2>
+          <p>اكتشف مفرداتنا وأمثالنا وأزياءنا وأطباقنا الشعبية. استخدم البحث أو اختر تصنيفًا لتصل إلى ما تبحث عنه.</p>
+        </div>
+        <div class="tools-row">
+          <label class="search-wrap"><input id="heritageSearch" type="search" placeholder="ابحث في حكاياتنا…" aria-label="ابحث في موسوعة التراث"></label>
+          <div class="filters" role="group" aria-label="فلترة حسب التصنيف">
+            <button class="filter-chip active" type="button" data-filter="all">الكل</button>
+            <button class="filter-chip" type="button" data-filter="term">مصطلحات</button>
+            <button class="filter-chip" type="button" data-filter="clothing">أزياء</button>
+            <button class="filter-chip" type="button" data-filter="food">أكلات</button>
+            <button class="filter-chip" type="button" data-filter="proverb">أمثال</button>
+          </div>
+        </div>
+        <div class="cards-grid" id="heritageCards">
+          <article class="heritage-card" data-category="term"><span class="card-icon">☕</span><h3>المِهْباش</h3><p>أداة خشبية منقوشة تُستخدم لطحن القهوة العربية، وترتبط بدعوة الضيوف والكرم.</p><span class="card-tag">مصطلح تراثي</span></article>
+          <article class="heritage-card" data-category="term"><span class="card-icon">🐪</span><h3>الهَوْدَج</h3><p>هودج الجمل المزيّن بالأقمشة، استُخدم لنقل النساء بأمان وراحة أثناء الترحال.</p><span class="card-tag">مصطلح تراثي</span></article>
+          <article class="heritage-card" data-category="term"><span class="card-icon">🏺</span><h3>الحَواية</h3><p>قطعة قماشية دائرية توضع على الرأس لتسهيل حمل أواني الماء والجرار الفخارية.</p><span class="card-tag">مصطلح تراثي</span></article>
+          <article class="heritage-card" data-category="term"><span class="card-icon">🗡️</span><h3>الشَّبْرِيّة</h3><p>خنجر أردني تقليدي يُحمل على الحزام، ويرمز للنخوة والشهامة والشرف.</p><span class="card-tag">مصطلح تراثي</span></article>
+          <article class="heritage-card" data-category="term"><span class="card-icon">🌾</span><h3>المِحْراش / العُود</h3><p>أدوات زراعية قديمة استخدمها الأجداد في حراثة الأرض وفلاحتها.</p><span class="card-tag">مصطلح تراثي</span></article>
+          <article class="heritage-card" data-category="clothing"><span class="card-icon">🧣</span><h3>الشماغ الأردني المهدّب</h3><p>رمز الأصالة والشموخ، يتميز بالتهديب اليدوي الأبيض ويزين الرأس الأردني.</p><span class="card-tag">زي وتراث مادي</span></article>
+          <article class="heritage-card" data-category="clothing"><span class="card-icon">🪡</span><h3>المدرقة الأردنية</h3><p>الثوب التراثي للمرأة الأردنية؛ تطريزه اليدوي يختلف بين المحافظات، مثل المعاني والسلطي وثوب شمال الأردن.</p><span class="card-tag">زي وتراث مادي</span></article>
+          <article class="heritage-card" data-category="clothing"><span class="card-icon">🧕</span><h3>العصابة / المسفع</h3><p>غطاء رأس تراثي للنساء في بعض مناطق الأردن، تنوّعت أشكاله وطرق ارتدائه.</p><span class="card-tag">زي وتراث مادي</span></article>
+          <article class="heritage-card" data-category="food"><span class="card-icon">🍚</span><h3>المنسف الأردني</h3><p>اللحم والجميد الكركي والأرز؛ رمز الكرم والهوية الوطنية الأردنية، وأُدرج في قائمة اليونسكو للتراث الثقافي غير المادي.</p><span class="card-tag">أكلة وطنية</span></article>
+          <article class="heritage-card" data-category="food"><span class="card-icon">🥣</span><h3>الرشوف</h3><p>طبق تراثي شتوي دافئ يتكون من الجريشة والعدس والجميد.</p><span class="card-tag">من المطبخ الأردني</span></article>
+          <article class="heritage-card" data-category="food"><span class="card-icon">🫒</span><h3>المكمورة</h3><p>وجبة شمالية أصيلة من طبقات العجين واللحم أو الدجاج مع البصل وزيت الزيتون.</p><span class="card-tag">من المطبخ الأردني</span></article>
+          <article class="heritage-card" data-category="food"><span class="card-icon">🍯</span><h3>اللزاقيات</h3><p>حلوى شعبية تقليدية تُعد على الصاج مع السمن البلدي والسكر أو العسل.</p><span class="card-tag">حلوى شعبية</span></article>
+          <article class="heritage-card" data-category="proverb"><span class="card-icon">⛰️</span><h3>الجبل ما بيلتقي بالجبل، بس الناس بتلتقي</h3><p>حثّ على التسامح وتذكير بأن الحياة تجمع الناس مهما طال الزمن.</p><span class="card-tag">مثل شعبي</span></article>
+          <article class="heritage-card" data-category="proverb"><span class="card-icon">🏺</span><h3>طب الجرة على تمها بتطلع البنت لأمها</h3><p>يقال للتعبير عن تشابه الطباع والأخلاق بين الآباء والأبناء.</p><span class="card-tag">مثل شعبي</span></article>
+          <article class="heritage-card" data-category="proverb"><span class="card-icon">🌱</span><h3>إللي ماله قديم، ماله جديد</h3><p>يذكّرنا بأهمية الاعتزاز بالأصول والتراث لبناء المستقبل.</p><span class="card-tag">مثل شعبي</span></article>
+        </div>
+        <p class="empty-state" id="emptyState">ما لقينا نتيجة مطابقة — جرّب كلمة ثانية.</p>
+        <div class="riddles">
+          <h3>ألغاز من ذاكرتنا الشعبية <span class="eyebrow">اضغط لتكشف الجواب</span></h3>
+          <div class="riddle-grid">
+            <button class="riddle" type="button"><strong>أحمر ومهدّب، على الرأس يعتلي، رمز النخوة والنظام، شو بيكون؟</strong><p class="hint">اضغط واكتشف الجواب</p><p class="answer">الجواب: الشماغ الأردني ❤️</p></button>
+            <button class="riddle" type="button"><strong>أسود وكبير، بفيّه بنجتمع، صوت القهوة فيه بيصنع فرح؟</strong><p class="hint">اضغط واكتشف الجواب</p><p class="answer">الجواب: بيت الشعر ☕</p></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stories">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">أرشيف الحكايات والصوت</span>
+          <h2>حكاياتنا تُروى… وصوتها قريب</h2>
+          <p>نحفظ القصص التي عاشها أجدادنا، ونهيّئ مساحة لصوت الهوية الأردنية.</p>
+        </div>
+        <div class="podcast-card reveal">
+          <div class="podcast-icon" aria-hidden="true">🎙️</div>
+          <div>
+            <h3>بودكاست أردننا هويتنا</h3>
+            <p>نحضّر لكم حكايات من الذاكرة الأردنية بصوت أهلها، ونلتقي قريبًا في أولى الحلقات.</p>
+            <div class="podcast-status">قيد الإنتاج والتسجيل · ترقّبوا الإطلاق قريبًا</div>
+          </div>
+          <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <p style="text-align:center;color:var(--muted);font-size:.84rem;margin:20px auto 0">🎙️ بودكاست أردننا هويتنا – يتم العمل على تسريع إنتاج الحلقات الأولى وسيتم إطلاقها قريباً جداً. انتظرونا!</p>
+      </div>
+    </section>
+
+    <section class="section atlas" id="atlas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">الأطلس التفاعلي والأدوات الرقمية</span>
+          <h2>من الشمال للجنوب… لكل محافظة حكاية</h2>
+          <p>اختر محافظة لاكتشاف لمحة عن معالمها وتراثها. الخريطة التفاعلية تضم محافظات الأردن الاثنتي عشرة.</p>
+        </div>
+        <div class="atlas-layout">
+          <div class="map-panel reveal">
+            <p class="map-caption">اضغط على اسم المحافظة لاستكشافها</p>
+            <div class="governorates" id="governorates">
+              <button class="governorate active" data-name="إربد" data-place="أم قيس، تل إربد، حكايات سهول حوران والدبكة الشمالية.">إربد<span>الشمال</span></button>
+              <button class="governorate" data-name="عجلون" data-place="قلعة عجلون، غابات البلوط، وقرى الزيتون الجبلية.">عجلون<span>الشمال</span></button>
+              <button class="governorate" data-name="جرش" data-place="المدينة الأثرية، شارع الأعمدة، ومهرجان جرش العريق.">جرش<span>الشمال</span></button>
+              <button class="governorate" data-name="المفرق" data-place="أم الجمال، البادية الشمالية، وحكايات القوافل والضيافة.">المفرق<span>الشمال</span></button>
+              <button class="governorate" data-name="البلقاء" data-place="السلط التراثية، بيوت الحجر الأصفر، وحكايات التسامح.">البلقاء<span>الوسط</span></button>
+              <button class="governorate" data-name="عمّان" data-place="جبل القلعة، المدرج الروماني، ومزيج الحكايات الأردنية.">عمّان<span>الوسط</span></button>
+              <button class="governorate" data-name="الزرقاء" data-place="قصر عمرة والأزرق، وواحة تجمع طرق البادية القديمة.">الزرقاء<span>الوسط</span></button>
+              <button class="governorate" data-name="مادبا" data-place="خارطة الفسيفساء، جبل نيبو، وفنون الحرفة اليدوية.">مادبا<span>الوسط</span></button>
+              <button class="governorate" data-name="الكرك" data-place="قلعة الكرك، قرى مؤاب، والجميد الذي يزين سفرة المنسف.">الكرك<span>الجنوب</span></button>
+              <button class="governorate" data-name="الطفيلة" data-place="ضانا، بصيرا، وحكايات الجبال والينابيع الجنوبية.">الطفيلة<span>الجنوب</span></button>
+              <button class="governorate" data-name="معان" data-place="البتراء، وادي موسى، والدرب الذي حفظ حكاية الأنباط.">معان<span>الجنوب</span></button>
+              <button class="governorate" data-name="العقبة" data-place="أيلة، البحر الأحمر، وحكايات الميناء واللؤلؤ.">العقبة<span>الجنوب</span></button>
+            </div>
+          </div>
+          <div class="governorate-info reveal" id="governorateInfo" aria-live="polite">
+            <span class="eyebrow">حكاية محافظة</span><h3 id="governorateName">إربد</h3>
+            <p id="governorateStory">حكايات السهل والقرى الشمالية، حيث تمتد سهول حوران وتُحفظ الذاكرة في الأغنية والدبكة.</p>
+            <div class="place"><strong>معالم وحكايات:</strong> <span id="governoratePlace">أم قيس، تل إربد، حكايات سهول حوران والدبكة الشمالية.</span></div>
+          </div>
+        </div>
+        <div class="features-grid" style="margin-top:24px">
+          <article class="feature-card reveal">
+            <span class="eyebrow">تجربة رقمية</span><h3>الواقع المعزز · AR</h3>
+            <p>مساحة مخصصة لاستكشاف مجسمات ثلاثية الأبعاد للأدوات التراثية وفتحها عبر كاميرا الهاتف. التجربة قيد التطوير.</p>
+            <div class="ar-model" aria-label="معاينة توضيحية للمجسمات التراثية">🏺<small>مجسمات التراث الأردني قريبًا</small></div>
+          </article>
+          <article class="feature-card quiz-box reveal">
+            <span class="eyebrow">تحدّي التراث</span><h3>اختبر معلوماتك التراثية</h3>
+            <div class="quiz-progress" aria-label="تقدم الاختبار"><span id="quizProgress"></span></div>
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
+            <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="../Media/images/logo.jpg" alt=""><span>بصمة اليرموك<br>أردننا هويتنا</span></div>
+          <p>نحفظ الحكاية، ونورّث الهوية، ونرسم للمستقبل بصمة أردنية.</p>
+        </div>
+        <div><strong>روابط سريعة</strong><div class="footer-links"><a href="#about">عن المبادرة</a><a href="#heritage">موسوعة التراث</a><a href="#atlas">الأطلس التفاعلي</a></div></div>
+        <div><strong>تواصلوا معنا</strong><div class="footer-links">
+          <a class="social-link" href="https://www.instagram.com/team_basmat_al_yarmouk?xtok=MWJsaXJra29tdjJxdg==" target="_blank" rel="noopener noreferrer">📷 إنستغرام الفريق ↗</a>
+          <a class="social-link" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">🤝 نموذج الانتساب ↗</a>
+        </div></div>
+      </div>
+      <div class="copyright">جميع حقوق الطبع والنشر محفوظة © <span id="year"></span> بصمة اليرموك</div>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+    const savedTheme = localStorage.getItem("basmat-theme");
+    if (savedTheme === "dark") body.classList.add("dark");
+    function updateThemeButton() {
+      const dark = body.classList.contains("dark");
+      themeToggle.textContent = dark ? "☀️" : "🌙";
+      themeToggle.title = dark ? "الوضع الفاتح" : "الوضع الداكن";
+      themeToggle.setAttribute("aria-label", dark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن");
+    }
+    updateThemeButton();
+    themeToggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
+      localStorage.setItem("basmat-theme", body.classList.contains("dark") ? "dark" : "light");
+      updateThemeButton();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    menuToggle.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.textContent = open ? "×" : "☰";
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰";
+    }));
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach(element => revealObserver.observe(element));
+
+    let countersStarted = false;
+    const statsSection = document.querySelector(".stats");
+    const statsObserver = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting || countersStarted) return;
+      countersStarted = true;
+      document.querySelectorAll("[data-count]").forEach(counter => {
+        const target = Number(counter.dataset.count);
+        const start = performance.now();
+        const duration = 1300;
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = Math.floor(target * eased).toLocaleString("en-US") + "+";
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+      statsObserver.unobserve(statsSection);
+    }, { threshold: .35 });
+    statsObserver.observe(statsSection);
+
+    const searchInput = document.getElementById("heritageSearch");
+    const cards = [...document.querySelectorAll(".heritage-card")];
+    const filterButtons = [...document.querySelectorAll(".filter-chip")];
+    const emptyState = document.getElementById("emptyState");
+    let activeFilter = "all";
+    function filterCards() {
+      const query = searchInput.value.trim().toLocaleLowerCase("ar");
+      let shown = 0;
+      cards.forEach(card => {
+        const matchesFilter = activeFilter === "all" || card.dataset.category === activeFilter;
+        const matchesQuery = card.textContent.toLocaleLowerCase("ar").includes(query);
+        card.hidden = !(matchesFilter && matchesQuery);
+        if (!card.hidden) shown++;
+      });
+      emptyState.classList.toggle("show", shown === 0);
+    }
+    searchInput.addEventListener("input", filterCards);
+    filterButtons.forEach(button => button.addEventListener("click", () => {
+      activeFilter = button.dataset.filter;
+      filterButtons.forEach(item => item.classList.toggle("active", item === button));
+      filterCards();
+    }));
+    document.querySelectorAll(".riddle").forEach(riddle => riddle.addEventListener("click", () => riddle.classList.toggle("revealed")));
+
+    const governorateStories = {
+      "إربد": "حكايات السهل والقرى الشمالية، حيث تمتد سهول حوران وتُحفظ الذاكرة في الأغنية والدبكة.",
+      "عجلون": "حكاية الجبل الأخضر وغاباته، وقلعة صمدت شاهدة على تاريخ المكان وأهله.",
+      "جرش": "مدينة الأعمدة والآثار، حيث يلتقي صدى التاريخ بمهرجان الفنون والحكايات.",
+      "المفرق": "أرض البادية والضيافة، ومحطات القوافل التي ربطت شمال الأردن بعمقه العربي.",
+      "البلقاء": "السلط مدينة التسامح والبيوت الصفراء، حيث تتجاور الحكايات وتُصان ذاكرة المكان.",
+      "عمّان": "عاصمة جمعت حضارات متعاقبة، من جبل القلعة والمدرج إلى حكايات أحيائها القديمة.",
+      "الزرقاء": "بوابة البادية وواحاتها، حيث تحكي القصور الصحراوية سيرة طرق التجارة القديمة.",
+      "مادبا": "فسيفساء الأرض والذاكرة، حكاية فن توارثته الأيدي وبقي شاهدًا على حضاراتها.",
+      "الكرك": "قلعة شامخة وأرض مؤاب، تُعرف بأهلها وكرمها وبالجميد الذي يميز سفرتها.",
+      "الطفيلة": "جبال وعيون ماء وقرى قديمة، تحفظ حكايات الجنوب وقيم التكاتف.",
+      "معان": "بوابة البتراء والدرب القديم؛ هنا تروي الحجارة حكاية الأنباط ومدينة وردية.",
+      "العقبة": "مدينة البحر واللؤلؤ، تلتقي فيها حكايات الميناء والبحارة مع دفء الجنوب."
+    };
+    const governorateButtons = [...document.querySelectorAll(".governorate")];
+    governorateButtons.forEach(button => button.addEventListener("click", () => {
+      governorateButtons.forEach(item => item.classList.toggle("active", item === button));
+      document.getElementById("governorateName").textContent = button.dataset.name;
+      document.getElementById("governoratePlace").textContent = button.dataset.place;
+      document.getElementById("governorateStory").textContent = governorateStories[button.dataset.name];
+    }));
+
+    const quizQuestions = [
+      { question: "أي محافظة تشتهر بالجميد المستخدم في المنسف؟", options: ["الكرك", "العقبة", "جرش"], answer: 0 },
+      { question: "ما الأداة الخشبية التي يُدق بها البن للقهوة العربية؟", options: ["المِهْباش", "الحَواية", "الهَوْدَج"], answer: 0 },
+      { question: "ما اسم الحلوى التي تُعد على الصاج بالسمن البلدي؟", options: ["الرشوف", "اللزاقيات", "المكمورة"], answer: 1 },
+      { question: "أي موقع أثري يُعرف بالمدينة الوردية؟", options: ["أم قيس", "البتراء", "جبل القلعة"], answer: 1 },
+      { question: "ممّ يتكون طبق الرشوف؟", options: ["الجريشة والعدس والجميد", "الأرز واللحم والجميد", "العجين والبصل وزيت الزيتون"], answer: 0 }
+    ];
+    let quizIndex = 0;
+    let quizScore = 0;
+    let quizLocked = false;
+    const quizQuestion = document.getElementById("quizQuestion");
+    const quizOptions = document.getElementById("quizOptions");
+    const quizFeedback = document.getElementById("quizFeedback");
+    const quizProgress = document.getElementById("quizProgress");
+    const quizResult = document.getElementById("quizResult");
+    function renderQuestion() {
+      const item = quizQuestions[quizIndex];
+      quizLocked = false;
+      quizFeedback.textContent = "";
+      quizProgress.style.width = (quizIndex / quizQuestions.length * 100) + "%";
+      quizQuestion.textContent = (quizIndex + 1) + " / " + quizQuestions.length + " — " + item.question;
+      quizOptions.replaceChildren();
+      item.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "quiz-option";
+        button.type = "button";
+        button.textContent = option;
+        button.addEventListener("click", () => answerQuestion(index, button));
+        quizOptions.append(button);
+      });
+    }
+    function answerQuestion(index, selectedButton) {
+      if (quizLocked) return;
+      quizLocked = true;
+      const correct = quizQuestions[quizIndex].answer;
+      [...quizOptions.children].forEach((button, optionIndex) => {
+        button.disabled = true;
+        if (optionIndex === correct) button.classList.add("correct");
+      });
+      if (index === correct) {
+        quizScore++;
+        quizFeedback.textContent = "إجابة صحيحة! أحسنت 👏";
+      } else {
+        selectedButton.classList.add("wrong");
+        quizFeedback.textContent = "قريب! الجواب الصحيح مميز باللون الأخضر.";
+      }
+      window.setTimeout(() => {
+        quizIndex++;
+        if (quizIndex < quizQuestions.length) {
+          renderQuestion();
+        } else {
+          quizProgress.style.width = "100%";
+          quizQuestion.textContent = "اكتمل الاختبار — يعطيك العافية!";
+          quizOptions.replaceChildren();
+          quizFeedback.textContent = "";
+          quizResult.classList.add("show");
+          quizResult.replaceChildren();
+          const certificateTitle = document.createElement("strong");
+          certificateTitle.textContent = "شهادة مستكشف التراث 🏅";
+          const certificateMessage = document.createElement("p");
+          certificateMessage.textContent = "أجبت إجابة صحيحة عن " + quizScore + " من " + quizQuestions.length + " أسئلة. شكرًا لأنك تحفظ حكايتنا!";
+          quizResult.append(certificateTitle, certificateMessage);
+          const restart = document.createElement("button");
+          restart.type = "button";
+          restart.className = "button button-outline";
+          restart.textContent = "جرّب مرة ثانية";
+          restart.addEventListener("click", () => {
+            quizIndex = 0;
+            quizScore = 0;
+            quizResult.classList.remove("show");
+            renderQuestion();
+          });
+          quizResult.append(restart);
+        }
+      }, 1000);
+    }
+    renderQuestion();
+  </script>
+</body>
+</html>
