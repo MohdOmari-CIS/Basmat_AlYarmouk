@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f3eb">
+  <meta name="theme-color" content="#f4f7f2">
   <meta name="description" content="بصمة اليرموك — منصة أردننا هويتنا لحفظ وتوثيق التراث المادي والشفهي الأردني.">
   <title>بصمة اليرموك | أردننا هويتنا</title>
   <style>
@@ -11,41 +11,55 @@
 
     :root {
       color-scheme: light;
-      --paper: #f6f3eb;
-      --surface: #fffdf8;
-      --ink: #1c2a23;
-      --muted: #657269;
-      --olive: #65734d;
-      --olive-dark: #445239;
-      --clay: #b66545;
-      --sand: #e8dfce;
-      --line: rgba(28, 42, 35, .13);
-      --shadow: 0 18px 55px rgba(48, 50, 37, .1);
+      --paper: #f4f7f2;
+      --surface: #fffefa;
+      --ink: #172923;
+      --muted: #5a7167;
+      --olive: #4a866d;
+      --olive-dark: #285645;
+      --clay: #b9854d;
+      --sand: #e1ebe4;
+      --line: rgba(23, 41, 35, .13);
+      --shadow: 0 18px 55px rgba(22, 54, 42, .11);
+      --footer-bg: #1d382e;
+      --footer-accent: #ecc28b;
     }
 
     body.dark {
       color-scheme: dark;
-      --paper: #171d19;
-      --surface: #202923;
-      --ink: #f2efe6;
-      --muted: #b4beb4;
-      --olive: #aabb87;
-      --olive-dark: #d3ddb6;
-      --clay: #db987a;
-      --sand: #303a31;
-      --line: rgba(242, 239, 230, .14);
-      --shadow: 0 18px 55px rgba(0, 0, 0, .24);
+      --paper: #101a18;
+      --surface: #192824;
+      --ink: #f0f3eb;
+      --muted: #aec1b6;
+      --olive: #91c6aa;
+      --olive-dark: #badbca;
+      --clay: #e7b875;
+      --sand: #243a32;
+      --line: rgba(240, 243, 235, .14);
+      --shadow: 0 18px 55px rgba(0, 0, 0, .3);
+      --footer-bg: #0b1412;
+      --footer-accent: #e7b875;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 92px; }
     body {
       margin: 0;
+      padding-top: 78px;
+      position: relative;
+      isolation: isolate;
       background: var(--paper);
       color: var(--ink);
       font-family: "Alexandria", "Noto Kufi Arabic", Tahoma, sans-serif;
       line-height: 1.85;
       transition: background .25s, color .25s;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: var(--olive);
+      -webkit-mask: url("../Media/images/fingerprint-pattern.svg") 0 0 / 360px 360px repeat;
+      mask: url("../Media/images/fingerprint-pattern.svg") 0 0 / 360px 360px repeat;
+      opacity: .14;
     }
     button, input { font: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }
@@ -73,7 +87,7 @@
     }
 
     header {
-      position: sticky; inset-block-start: 0; z-index: 20;
+      position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 20;
       background: color-mix(in srgb, var(--paper) 91%, transparent);
       border-bottom: 1px solid var(--line); backdrop-filter: blur(16px);
     }
@@ -83,15 +97,27 @@
     .nav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 27px); color: var(--muted); font-size: .8rem; }
     .nav-links a:hover { color: var(--clay); }
     .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .language-control { position: relative; }
+    .language-menu {
+      position: absolute; z-index: 25; top: calc(100% + 10px); inset-inline-end: 0;
+      width: 205px; padding: 8px; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--surface); box-shadow: var(--shadow);
+    }
+    .language-menu[hidden] { display: none; }
+    .language-option {
+      display: block; width: 100%; padding: 10px 12px; border: 0; border-radius: 10px;
+      background: transparent; text-align: start; cursor: pointer; color: var(--ink);
+    }
+    .language-option:hover, .language-option[aria-checked="true"] { background: var(--sand); }
     .nav-join { padding: 9px 16px; font-size: .8rem; }
     .menu-toggle { display: none; }
 
     .hero {
       min-height: 660px; display: grid; align-items: center; overflow: hidden; position: relative;
       background:
-        radial-gradient(ellipse at 75% 40%, rgba(196, 128, 83, .25), transparent 33%),
-        radial-gradient(ellipse at 22% 78%, rgba(112, 130, 84, .2), transparent 34%),
-        linear-gradient(130deg, var(--paper), color-mix(in srgb, var(--sand) 55%, var(--paper)));
+        radial-gradient(ellipse at 75% 40%, color-mix(in srgb, var(--clay) 24%, transparent), transparent 35%),
+        radial-gradient(ellipse at 22% 78%, color-mix(in srgb, var(--olive) 22%, transparent), transparent 36%),
+        linear-gradient(130deg, color-mix(in srgb, var(--paper) 90%, transparent), color-mix(in srgb, var(--sand) 72%, transparent));
     }
     .hero::before, .hero::after {
       content: ""; position: absolute; border: 1px solid color-mix(in srgb, var(--olive) 22%, transparent);
@@ -109,31 +135,24 @@
     .hero-note { display: flex; align-items: center; gap: 11px; color: var(--muted); font-size: .76rem; margin-top: 36px; }
     .hero-note::before { content: ""; width: 37px; height: 1px; background: var(--clay); }
     .hero-art { min-height: 400px; display: grid; place-items: center; position: relative; }
-    .petra-card {
-      width: min(100%, 380px); aspect-ratio: .91; border-radius: 48% 48% 24px 24px;
-      background:
-        linear-gradient(180deg, rgba(33, 37, 28, .05) 22%, rgba(33, 37, 28, .7)),
-        radial-gradient(ellipse at 50% 35%, #e1ad76 0 8%, transparent 8.5%),
-        linear-gradient(150deg, transparent 0 42%, #bb7251 42% 52%, #8e503a 52% 64%, #cf8d63 64% 75%, #6f4835 75%),
-        linear-gradient(180deg, #c8d0bc, #e6bc8b 48%, #9a6047);
-      box-shadow: var(--shadow); position: relative; overflow: hidden; border: 8px solid color-mix(in srgb, var(--surface) 72%, transparent);
+    .fingerprint-emblem {
+      width: min(100%, 370px); aspect-ratio: 1; display: grid; place-items: center;
+      border: 1px solid color-mix(in srgb, var(--olive) 28%, transparent);
+      border-radius: 50%; position: relative;
+      background: radial-gradient(circle, color-mix(in srgb, var(--surface) 95%, transparent) 0 50%, color-mix(in srgb, var(--sand) 72%, transparent) 71%, transparent 72%);
+      box-shadow: 0 22px 65px color-mix(in srgb, var(--olive-dark) 15%, transparent);
     }
-    .petra-card::before {
-      content: ""; position: absolute; width: 43%; height: 25%; inset-inline-start: 29%; top: 34%;
-      background: linear-gradient(90deg, #734837 0 7%, #e4ad76 7% 15%, #7b4a38 15% 23%, #e2a36e 23% 31%, #714638 31% 39%, #e0a16c 39% 47%, #734837 47% 55%, #dda06d 55% 63%, #754a39 63% 71%, #e6b07a 71% 79%, #6b4234 79%);
-      clip-path: polygon(0 100%, 7% 0, 15% 100%, 23% 0, 31% 100%, 39% 0, 47% 100%, 55% 0, 63% 100%, 71% 0, 79% 100%, 87% 0, 100% 100%);
-      opacity: .9;
+    .fingerprint-emblem::before, .fingerprint-emblem::after {
+      content: ""; position: absolute; inset: 5%; border: 1px solid color-mix(in srgb, var(--clay) 38%, transparent); border-radius: 50%;
     }
-    .petra-card::after {
-      content: "البتراء · إرثٌ لا يغيب"; position: absolute; inset-inline: 20px; bottom: 20px;
-      color: white; font-weight: 700; font-size: .9rem;
-    }
+    .fingerprint-emblem::after { inset: 11%; border-color: color-mix(in srgb, var(--olive) 32%, transparent); }
+    .fingerprint-emblem img { width: 65%; height: 65%; object-fit: contain; z-index: 1; }
     .art-label {
       position: absolute; padding: 11px 15px; background: var(--surface); border: 1px solid var(--line);
       border-radius: 14px; box-shadow: var(--shadow); font-size: .8rem; font-weight: 600;
     }
-    .art-label.one { inset-inline-end: -10px; top: 55px; transform: rotate(4deg); }
-    .art-label.two { inset-inline-start: -5px; bottom: 67px; transform: rotate(-5deg); }
+    .art-label.one { inset-inline-end: -10px; top: 55px; transform: rotate(3deg); }
+    .art-label.two { inset-inline-start: -5px; bottom: 67px; transform: rotate(-3deg); }
     .art-label span { font-size: 1.1rem; margin-inline-end: 6px; }
 
     .stats { padding: 0 0 30px; margin-top: -1px; }
@@ -152,12 +171,12 @@
     .about-copy p { color: var(--muted); }
     .about-quote { border-inline-start: 3px solid var(--clay); padding-inline-start: 18px; margin-top: 25px; color: var(--olive-dark); font-weight: 600; }
 
-    .heritage { background: color-mix(in srgb, var(--sand) 38%, var(--paper)); }
+    .heritage { background: color-mix(in srgb, var(--sand) 55%, transparent); }
     .tools-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 25px; }
     .search-wrap { position: relative; flex: 1 1 250px; max-width: 370px; }
-    .search-wrap input { width: 100%; padding: 12px 44px 12px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); outline: none; }
+    .search-wrap input { width: 100%; padding: 12px; padding-inline-start: 44px; padding-inline-end: 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); outline: none; }
     .search-wrap input:focus { border-color: var(--olive); box-shadow: 0 0 0 3px color-mix(in srgb, var(--olive) 18%, transparent); }
-    .search-wrap::before { content: "⌕"; position: absolute; right: 17px; top: 2px; font-size: 1.6rem; color: var(--muted); }
+    .search-wrap::before { content: "⌕"; position: absolute; inset-inline-start: 17px; top: 2px; font-size: 1.6rem; color: var(--muted); }
     .filters { display: flex; gap: 8px; overflow-x: auto; }
     .filter-chip { white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px; background: transparent; cursor: pointer; color: var(--muted); font-size: .8rem; }
     .filter-chip.active, .filter-chip:hover { background: var(--olive-dark); color: var(--surface); border-color: var(--olive-dark); }
@@ -174,7 +193,7 @@
     .riddles { margin-top: 55px; }
     .riddles h3 { margin-bottom: 18px; font-size: 1.4rem; }
     .riddle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .riddle { text-align: right; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; padding: 20px; cursor: pointer; }
+    .riddle { text-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; padding: 20px; cursor: pointer; }
     .riddle p { margin: 5px 0 0; color: var(--muted); font-size: .85rem; }
     .riddle .answer { color: var(--olive-dark); font-weight: 700; display: none; }
     .riddle.revealed .answer { display: block; }
@@ -190,7 +209,7 @@
     .wave i:nth-child(2n) { height: 16px; }
     .podcast-status { color: var(--clay); font-size: .75rem; font-weight: 700; margin-top: 10px; }
 
-    .atlas { background: color-mix(in srgb, var(--sand) 38%, var(--paper)); }
+    .atlas { background: color-mix(in srgb, var(--sand) 55%, transparent); }
     .atlas-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
     .map-panel { min-height: 400px; padding: 27px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); }
     .map-caption { color: var(--muted); font-size: .78rem; margin: 0 0 20px; }
@@ -214,7 +233,7 @@
     .quiz-progress span { height: 100%; width: 0; display: block; background: var(--clay); transition: width .25s; }
     .quiz-question { font-size: .88rem; font-weight: 700; min-height: 54px; }
     .quiz-options { display: grid; gap: 7px; }
-    .quiz-option { text-align: right; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: transparent; cursor: pointer; font-size: .75rem; }
+    .quiz-option { text-align: start; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: transparent; cursor: pointer; font-size: .75rem; }
     .quiz-option:hover:not(:disabled) { border-color: var(--olive); }
     .quiz-option.correct { border-color: #628653; background: rgba(98,134,83,.15); }
     .quiz-option.wrong { border-color: #ba604d; background: rgba(186,96,77,.14); }
@@ -225,13 +244,13 @@
     .quiz-result button { display: block; margin-top: 9px; }
     .quiz-feedback { min-height: 24px; color: var(--muted); font-size: .72rem; margin-top: 7px; }
 
-    footer { padding: 55px 0 25px; background: #222c25; color: #f5f2e9; }
+    footer { padding: 55px 0 25px; background: var(--footer-bg); color: #f5f2e9; }
     .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 38px; padding-bottom: 35px; }
     .footer-brand { display: flex; align-items: center; gap: 12px; font-weight: 800; }
     .footer-brand img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
     footer p, footer .footer-links { color: #c1c9bd; font-size: .82rem; }
     .footer-links { display: grid; gap: 7px; }
-    .footer-links a:hover { color: #e7b08e; }
+    .footer-links a:hover { color: var(--footer-accent); }
     .social-link { display: inline-flex; gap: 8px; align-items: center; }
     .copyright { border-top: 1px solid rgba(255,255,255,.16); padding-top: 18px; text-align: center; color: #c1c9bd; font-size: .75rem; }
 
@@ -255,6 +274,7 @@
     @media (max-width: 760px) {
       .container { width: min(100% - 30px, 540px); }
       .section { padding: 70px 0; }
+      body { padding-top: 68px; }
       .nav { min-height: 68px; }
       .brand { font-size: .78rem; }
       .brand img { width: 43px; height: 43px; }
@@ -269,7 +289,7 @@
       .hero { min-height: auto; }
       .hero-inner { grid-template-columns: 1fr; padding: 63px 0 32px; }
       .hero-art { min-height: 315px; }
-      .petra-card { width: 260px; }
+      .fingerprint-emblem { width: 285px; }
       .hero::before { inset-inline-start: -250px; }
       .hero::after { inset-inline-start: -220px; }
       .art-label.one { inset-inline-end: 2px; top: 26px; }
@@ -314,8 +334,15 @@
         <a href="#about">عن المبادرة</a><a href="#heritage">موسوعة التراث</a><a href="#stories">الحكايات</a><a href="#atlas">الأطلس التفاعلي</a>
       </div>
       <div class="nav-actions">
-        <button class="icon-button" id="themeToggle" type="button" aria-label="تفعيل الوضع الداكن" title="الوضع الداكن">🌙</button>
-        <a class="button nav-join" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">انضم إلينا ↗</a>
+        <div class="language-control">
+          <button class="icon-button language-toggle" id="languageToggle" type="button" aria-label="اختيار اللغة" aria-haspopup="menu" aria-expanded="false">🌐</button>
+          <div class="language-menu" id="languageMenu" role="menu" hidden>
+            <button class="language-option" type="button" role="menuitemradio" aria-checked="true" data-language="ar">العربية · Arabic (AR)</button>
+            <button class="language-option" type="button" role="menuitemradio" aria-checked="false" data-language="en">English · ENG</button>
+          </div>
+        </div>
+        <button class="icon-button" id="themeToggle" type="button" aria-label="تفعيل الوضع الداكن" title="الوضع الداكن">🌘</button>
+        <a class="button nav-join" href="https://forms.gle/nwj3QCAMcEfX2C3K7" target="_blank" rel="noopener noreferrer">انضم إلينا ↗</a>
         <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
       </div>
     </nav>
@@ -326,19 +353,21 @@
       <div class="hero-inner container">
         <div class="hero-copy reveal">
           <span class="eyebrow">حكاية وطن… وبصمة شباب</span>
-          <h1>فريق <span>بصمة اليرموك</span></h1>
+          <h1><span class="hero-title-prefix">فريق </span><span>بصمة اليرموك</span></h1>
           <p class="hero-tagline">منصة أردننا هويتنا – الأصالة بروح عصرية.</p>
           <p>منصة رقمية جامعة تهدف إلى حفظ وتوثيق التراث المادي والشفهي الأردني، والربط بين أصل التاريخ وتطلعات المستقبل.</p>
           <div class="hero-cta">
             <a class="button" href="#heritage">اكتشف حكايتنا <span>←</span></a>
-            <a class="button button-outline" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">كن جزءًا من الأثر ↗</a>
+            <a class="button button-outline" href="https://forms.gle/nwj3QCAMcEfX2C3K7" target="_blank" rel="noopener noreferrer">كن جزءًا من الأثر ↗</a>
           </div>
           <div class="hero-note">من جامعة اليرموك إلى كل الأردن</div>
         </div>
-        <div class="hero-art reveal" aria-label="تصميم مستوحى من البتراء والطبيعة الأردنية">
-          <div class="petra-card" role="img" aria-label="تصميم فني مستوحى من البتراء المدينة الوردية"></div>
-          <div class="art-label one"><span>🧵</span> خيوط الحكاية</div>
-          <div class="art-label two"><span>🫒</span> جذورنا حيّة</div>
+        <div class="hero-art reveal" aria-label="بصمة فنية تعبر عن الهوية والانتماء">
+          <div class="fingerprint-emblem" role="img" aria-label="رسم خطي لبصمة إصبع مستوحى من شعار الفريق">
+            <img src="../Media/images/fingerprint-pattern.svg" alt="بصمة فنية" data-i18n-alt="hero.fingerprintAlt">
+          </div>
+          <div class="art-label one"><span>✦</span> هويتنا تجمعنا</div>
+          <div class="art-label two"><span>◎</span> أثر يبدأ منّا</div>
         </div>
       </div>
     </section>
@@ -456,9 +485,9 @@
             </div>
           </div>
           <div class="governorate-info reveal" id="governorateInfo" aria-live="polite">
-            <span class="eyebrow">حكاية محافظة</span><h3 id="governorateName">إربد</h3>
-            <p id="governorateStory">حكايات السهل والقرى الشمالية، حيث تمتد سهول حوران وتُحفظ الذاكرة في الأغنية والدبكة.</p>
-            <div class="place"><strong>معالم وحكايات:</strong> <span id="governoratePlace">أم قيس، تل إربد، حكايات سهول حوران والدبكة الشمالية.</span></div>
+            <span class="eyebrow">حكاية محافظة</span><h3 id="governorateName" data-i18n-live>إربد</h3>
+            <p id="governorateStory" data-i18n-live>حكايات السهل والقرى الشمالية، حيث تمتد سهول حوران وتُحفظ الذاكرة في الأغنية والدبكة.</p>
+            <div class="place"><strong>معالم وحكايات:</strong> <span id="governoratePlace" data-i18n-live>أم قيس، تل إربد، حكايات سهول حوران والدبكة الشمالية.</span></div>
           </div>
         </div>
         <div class="features-grid" style="margin-top:24px">
@@ -470,10 +499,10 @@
           <article class="feature-card quiz-box reveal">
             <span class="eyebrow">تحدّي التراث</span><h3>اختبر معلوماتك التراثية</h3>
             <div class="quiz-progress" aria-label="تقدم الاختبار"><span id="quizProgress"></span></div>
-            <div class="quiz-question" id="quizQuestion"></div>
-            <div class="quiz-options" id="quizOptions"></div>
-            <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
-            <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+            <div class="quiz-question" id="quizQuestion" data-i18n-live></div>
+            <div class="quiz-options" id="quizOptions" data-i18n-live></div>
+            <div class="quiz-feedback" id="quizFeedback" aria-live="polite" data-i18n-live></div>
+            <div class="quiz-result" id="quizResult" aria-live="polite" data-i18n-live></div>
           </article>
         </div>
       </div>
@@ -490,7 +519,7 @@
         <div><strong>روابط سريعة</strong><div class="footer-links"><a href="#about">عن المبادرة</a><a href="#heritage">موسوعة التراث</a><a href="#atlas">الأطلس التفاعلي</a></div></div>
         <div><strong>تواصلوا معنا</strong><div class="footer-links">
           <a class="social-link" href="https://www.instagram.com/team_basmat_al_yarmouk?xtok=MWJsaXJra29tdjJxdg==" target="_blank" rel="noopener noreferrer">📷 إنستغرام الفريق ↗</a>
-          <a class="social-link" href="https://docs.google.com/forms/d/e/1FAIpQLSd1kX87bL99spQbEouvDkvo_IzHRQ7SrBm1ScDSG6482QN_A/viewform?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadOwaPu1UyZ7SztmBK5BPhTv1SMH7rhH3G1M5M2rpKfAA9-vkvR9RjM6ddxww_aem_nOH-24ossLJH1YRjjP8jeQ" target="_blank" rel="noopener noreferrer">🤝 نموذج الانتساب ↗</a>
+          <a class="social-link" href="https://forms.gle/nwj3QCAMcEfX2C3K7" target="_blank" rel="noopener noreferrer">🤝 نموذج الانتساب ↗</a>
         </div></div>
       </div>
       <div class="copyright">جميع حقوق الطبع والنشر محفوظة © <span id="year"></span> بصمة اليرموك</div>
@@ -499,15 +528,251 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
+    const englishText = {
+      "التنقل الرئيسي": "Main navigation",
+      "بصمة اليرموك - الصفحة الرئيسية": "Basmat Al Yarmouk — home",
+      "شعار فريق بصمة اليرموك": "Basmat Al Yarmouk team logo",
+      "عن المبادرة": "About the initiative",
+      "موسوعة التراث": "Heritage encyclopedia",
+      "الحكايات": "Stories",
+      "الأطلس التفاعلي": "Interactive atlas",
+      "اختيار اللغة": "Choose language",
+      "تفعيل الوضع الداكن": "Switch to dark mode",
+      "تفعيل الوضع الفاتح": "Switch to light mode",
+      "الوضع الداكن": "Dark mode",
+      "الوضع الفاتح": "Light mode",
+      "فتح القائمة": "Open menu",
+      "انضم إلينا ↗": "Join us ↗",
+      "حكاية وطن… وبصمة شباب": "A nation's story, shaped by its youth",
+      "فريق": "Team",
+      "بصمة اليرموك": "Basmat Al Yarmouk",
+      "أردننا هويتنا": "Our Jordan, Our Identity",
+      "منصة أردننا هويتنا – الأصالة بروح عصرية.": "Our Jordan, Our Identity — heritage with a contemporary spirit.",
+      "منصة رقمية جامعة تهدف إلى حفظ وتوثيق التراث المادي والشفهي الأردني، والربط بين أصل التاريخ وتطلعات المستقبل.": "A university-wide digital platform preserving Jordan's tangible and oral heritage, connecting our historic roots with the aspirations of the future.",
+      "اكتشف حكايتنا": "Explore our story",
+      "كن جزءًا من الأثر ↗": "Be part of the impact ↗",
+      "من جامعة اليرموك إلى كل الأردن": "From Yarmouk University to all of Jordan",
+      "بصمة فنية تعبر عن الهوية والانتماء": "An artistic fingerprint celebrating identity and belonging",
+      "رسم خطي لبصمة إصبع مستوحى من شعار الفريق": "A line-art fingerprint inspired by the team's logo",
+      "بصمة فنية": "Fingerprint artwork",
+      "هويتنا تجمعنا": "Our identity brings us together",
+      "أثر يبدأ منّا": "An impact that starts with us",
+      "إربد": "Irbid",
+      "عجلون": "Ajloun",
+      "جرش": "Jerash",
+      "المفرق": "Mafraq",
+      "البلقاء": "Balqa",
+      "عمّان": "Amman",
+      "الزرقاء": "Zarqa",
+      "مادبا": "Madaba",
+      "الكرك": "Karak",
+      "الطفيلة": "Tafilah",
+      "معان": "Ma'an",
+      "العقبة": "Aqaba",
+      "الشمال": "North",
+      "الوسط": "Central",
+      "الجنوب": "South",
+      "أرقام المنصة": "Our impact",
+      "محافظة أردنية": "Jordanian governorates",
+      "حكاية ومثل شعبي": "Stories and folk sayings",
+      "مصطلح وأداة تراثية": "Heritage terms and artifacts",
+      "زائر ومستكشف للمنصة": "Platform explorers",
+      "من نحن": "Who we are",
+      "التراث هوية، والانتماء فعل وعمل": "Heritage is identity; belonging is action.",
+      "انطلاقاً من إيماننا المطلق بأن التراث هوية، والانتماء فعل وعمل، نُظّمت سلسلة مبادرات «أردننا هويتنا» بإشراف فريق بصمة اليرموك في جامعة اليرموك.": "Rooted in our belief that heritage is identity and belonging is something we put into action, the “Our Jordan, Our Identity” initiative series was organized by the Basmat Al Yarmouk team at Yarmouk University.",
+      "وُلدت هذه السلسلة لتتجاوز الفعاليات الموسمية إلى مسار وطني ومجتمعي مستدام، يهدف إلى ترسيخ الهوية الوطنية الأردنية، وإحياء التراث المادي والشفهي، والربط بين أصالة الماضي وابتكارات الشباب الرقمية. نحن نؤمن بأن الحفاظ على التراث يبدأ بالوعي، وينتقل بالتطبيق، ويستمر بشغف الشباب.": "This series grew beyond seasonal events into a lasting national and community journey: strengthening Jordanian identity, reviving tangible and oral heritage, and connecting the authenticity of the past with young people's digital creativity. We believe preserving heritage begins with awareness, moves forward through action, and lives on through the passion of youth.",
+      "حكايتنا منّا… وبصمتنا للأجيال القادمة.": "Our story is ours to share — our mark for generations to come.",
+      "موسوعة التراث والفلكلور": "Heritage & folklore encyclopedia",
+      "تفاصيل صغيرة… تحكي حكاية كبيرة": "Small details. A remarkable story.",
+      "اكتشف مفرداتنا وأمثالنا وأزياءنا وأطباقنا الشعبية. استخدم البحث أو اختر تصنيفًا لتصل إلى ما تبحث عنه.": "Discover our words, sayings, clothing, and traditional dishes. Search or choose a category to find what you're looking for.",
+      "ابحث في حكاياتنا…": "Search our heritage…",
+      "ابحث في موسوعة التراث": "Search the heritage encyclopedia",
+      "ما لقينا نتيجة مطابقة — جرّب كلمة ثانية.": "No matching results — try another search.",
+      "فلترة حسب التصنيف": "Filter by category",
+      "الكل": "All",
+      "مصطلحات": "Terms",
+      "أزياء": "Clothing",
+      "أكلات": "Food",
+      "أمثال": "Proverbs",
+      "المِهْباش": "Mihbash (coffee pounder)",
+      "أداة خشبية منقوشة تُستخدم لطحن القهوة العربية، وترتبط بدعوة الضيوف والكرم.": "An engraved wooden tool used to pound Arabic coffee, closely associated with welcoming guests and generosity.",
+      "مصطلح تراثي": "Heritage term",
+      "الهَوْدَج": "Hawdaj (camel litter)",
+      "هودج الجمل المزيّن بالأقمشة، استُخدم لنقل النساء بأمان وراحة أثناء الترحال.": "A fabric-decorated camel litter that carried women safely and comfortably during journeys.",
+      "الحَواية": "Hawaya (carrying cloth)",
+      "قطعة قماشية دائرية توضع على الرأس لتسهيل حمل أواني الماء والجرار الفخارية.": "A circular cloth placed on the head to cushion and carry water vessels and pottery jars.",
+      "الشَّبْرِيّة": "Shibriya (traditional dagger)",
+      "خنجر أردني تقليدي يُحمل على الحزام، ويرمز للنخوة والشهامة والشرف.": "A traditional Jordanian dagger worn at the belt, symbolizing courage, chivalry, and honor.",
+      "المِحْراش / العُود": "Mihraash / Oud (ploughing tools)",
+      "أدوات زراعية قديمة استخدمها الأجداد في حراثة الأرض وفلاحتها.": "Traditional farming tools once used to plough and cultivate the land.",
+      "الشماغ الأردني المهدّب": "The fringed Jordanian shemagh",
+      "رمز الأصالة والشموخ، يتميز بالتهديب اليدوي الأبيض ويزين الرأس الأردني.": "A symbol of authenticity and pride, distinguished by its hand-finished white fringe.",
+      "زي وتراث مادي": "Dress & material heritage",
+      "المدرقة الأردنية": "The Jordanian Madraqa",
+      "الثوب التراثي للمرأة الأردنية؛ تطريزه اليدوي يختلف بين المحافظات، مثل المعاني والسلطي وثوب شمال الأردن.": "A traditional Jordanian women's dress with detailed embroidery that varies by region, including Ma'an, Salt, and northern styles.",
+      "العصابة / المسفع": "The Isaba / Misfa'a",
+      "غطاء رأس تراثي للنساء في بعض مناطق الأردن، تنوّعت أشكاله وطرق ارتدائه.": "A traditional women's head covering found in some parts of Jordan, with regional styles and ways of wearing it.",
+      "المنسف الأردني": "Jordanian Mansaf",
+      "اللحم والجميد الكركي والأرز؛ رمز الكرم والهوية الوطنية الأردنية، وأُدرج في قائمة اليونسكو للتراث الثقافي غير المادي.": "Lamb with Karak jameed and rice: a symbol of Jordanian hospitality and national identity, inscribed on UNESCO's Intangible Cultural Heritage list.",
+      "أكلة وطنية": "National dish",
+      "الرشوف": "Rashouf",
+      "طبق تراثي شتوي دافئ يتكون من الجريشة والعدس والجميد.": "A comforting winter dish made with crushed wheat, lentils, and jameed.",
+      "من المطبخ الأردني": "From Jordanian cuisine",
+      "المكمورة": "Makmoura",
+      "وجبة شمالية أصيلة من طبقات العجين واللحم أو الدجاج مع البصل وزيت الزيتون.": "An authentic northern Jordanian dish of layered dough, meat or chicken, onions, and olive oil.",
+      "اللزاقيات": "Lazagiyat",
+      "حلوى شعبية تقليدية تُعد على الصاج مع السمن البلدي والسكر أو العسل.": "A traditional sweet cooked on a saj with local ghee and sugar or honey.",
+      "حلوى شعبية": "Traditional sweet",
+      "الجبل ما بيلتقي بالجبل، بس الناس بتلتقي": "Mountains may never meet, but people do.",
+      "حثّ على التسامح وتذكير بأن الحياة تجمع الناس مهما طال الزمن.": "A call for forgiveness and a reminder that life brings people together, no matter how much time passes.",
+      "مثل شعبي": "Folk proverb",
+      "طب الجرة على تمها بتطلع البنت لأمها": "Set the jar on its mouth and the daughter takes after her mother.",
+      "يقال للتعبير عن تشابه الطباع والأخلاق بين الآباء والأبناء.": "A saying about the way children often inherit their parents' traits and character.",
+      "إللي ماله قديم، ماله جديد": "Those without roots have no future.",
+      "يذكّرنا بأهمية الاعتزاز بالأصول والتراث لبناء المستقبل.": "A reminder that valuing our roots and heritage helps us build the future.",
+      "ألغاز من ذاكرتنا الشعبية": "Riddles from our folk memory",
+      "اضغط لتكشف الجواب": "Tap to reveal the answer",
+      "أحمر ومهدّب، على الرأس يعتلي، رمز النخوة والنظام، شو بيكون؟": "Red and fringed, worn up high — a sign of pride and order. What is it?",
+      "اضغط واكتشف الجواب": "Tap to reveal the answer",
+      "الجواب: الشماغ الأردني ❤️": "Answer: the Jordanian shemagh ❤️",
+      "أسود وكبير، بفيّه بنجتمع، صوت القهوة فيه بيصنع فرح؟": "Black and spacious, where we gather; coffee is brewed and joy fills the air. What is it?",
+      "الجواب: بيت الشعر ☕": "Answer: the Bedouin tent ☕",
+      "أرشيف الحكايات والصوت": "Stories & audio archive",
+      "حكاياتنا تُروى… وصوتها قريب": "Our stories are told — and their voices are near.",
+      "نحفظ القصص التي عاشها أجدادنا، ونهيّئ مساحة لصوت الهوية الأردنية.": "We preserve the stories our ancestors lived and make room for the voice of Jordanian identity.",
+      "بودكاست أردننا هويتنا": "Our Jordan, Our Identity Podcast",
+      "نحضّر لكم حكايات من الذاكرة الأردنية بصوت أهلها، ونلتقي قريبًا في أولى الحلقات.": "We are preparing stories from Jordan's memory, told by the people who live it. Join us for our first episodes soon.",
+      "قيد الإنتاج والتسجيل · ترقّبوا الإطلاق قريبًا": "In production and recording · coming soon",
+      "🎙️ بودكاست أردننا هويتنا – يتم العمل على تسريع إنتاج الحلقات الأولى وسيتم إطلاقها قريباً جداً. انتظرونا!": "🎙️ Our Jordan, Our Identity Podcast — our first episodes are in production and will be launching very soon. Stay tuned!",
+      "الأطلس التفاعلي والأدوات الرقمية": "Interactive atlas & digital experiences",
+      "من الشمال للجنوب… لكل محافظة حكاية": "From north to south, every governorate has a story.",
+      "اختر محافظة لاكتشاف لمحة عن معالمها وتراثها. الخريطة التفاعلية تضم محافظات الأردن الاثنتي عشرة.": "Choose a governorate to discover its landmarks and heritage. Explore all twelve governorates of Jordan.",
+      "اضغط على اسم المحافظة لاستكشافها": "Choose a governorate to explore",
+      "حكاية محافظة": "A governorate's story",
+      "معالم وحكايات:": "Landmarks & stories:",
+      "تجربة رقمية": "Digital experience",
+      "الواقع المعزز · AR": "Augmented reality · AR",
+      "مساحة مخصصة لاستكشاف مجسمات ثلاثية الأبعاد للأدوات التراثية وفتحها عبر كاميرا الهاتف. التجربة قيد التطوير.": "A dedicated space for exploring 3D models of Jordanian heritage artifacts through a phone camera. The experience is in development.",
+      "معاينة توضيحية للمجسمات التراثية": "Preview of heritage artifacts",
+      "مجسمات التراث الأردني قريبًا": "Jordanian heritage models coming soon",
+      "تحدّي التراث": "Heritage challenge",
+      "اختبر معلوماتك التراثية": "Test your heritage knowledge",
+      "تقدم الاختبار": "Quiz progress",
+      "بصمة اليرموك\nأردننا هويتنا": "Basmat Al Yarmouk\nOur Jordan, Our Identity",
+      "نحفظ الحكاية، ونورّث الهوية، ونرسم للمستقبل بصمة أردنية.": "Preserving stories, passing on identity, and shaping a distinctly Jordanian future.",
+      "روابط سريعة": "Quick links",
+      "تواصلوا معنا": "Connect with us",
+      "📷 إنستغرام الفريق ↗": "📷 Team Instagram ↗",
+      "🤝 نموذج الانتساب ↗": "🤝 Join the team ↗",
+      "جميع حقوق الطبع والنشر محفوظة ©": "All rights reserved ©"
+    };
+    const originalTextNodes = new WeakMap();
+    const originalAttributes = new WeakMap();
+    const translatableAttributes = ["alt", "aria-label", "placeholder", "title"];
+    const languageToggle = document.getElementById("languageToggle");
+    const languageMenu = document.getElementById("languageMenu");
+    const languageOptions = [...document.querySelectorAll(".language-option")];
+    let currentLanguage = localStorage.getItem("basmat-language") === "en" ? "en" : "ar";
+
+    function applyLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language;
+      document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+      document.title = language === "ar" ? "بصمة اليرموك | أردننا هويتنا" : "Basmat Al Yarmouk | Our Jordan, Our Identity";
+      document.querySelector('meta[name="description"]').content = language === "ar"
+        ? "بصمة اليرموك — منصة أردننا هويتنا لحفظ وتوثيق التراث المادي والشفهي الأردني."
+        : "Basmat Al Yarmouk — Our Jordan, Our Identity, preserving Jordanian tangible and oral heritage.";
+
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.parentElement.closest("[data-i18n-live]")) continue;
+        if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.nodeValue);
+        const original = originalTextNodes.get(node);
+        const trimmed = original.trim();
+        if (!trimmed) continue;
+        const leading = original.match(/^\s*/)[0];
+        const trailing = original.match(/\s*$/)[0];
+        const translated = language === "en" ? (englishText[trimmed] || trimmed) : trimmed;
+        node.nodeValue = leading + translated + trailing;
+      }
+
+      document.querySelectorAll("[alt], [aria-label], [placeholder], [title]").forEach(element => {
+        let originals = originalAttributes.get(element);
+        if (!originals) {
+          originals = {};
+          originalAttributes.set(element, originals);
+        }
+        translatableAttributes.forEach(attribute => {
+          if (!element.hasAttribute(attribute)) return;
+          if (!(attribute in originals)) originals[attribute] = element.getAttribute(attribute);
+          const value = originals[attribute];
+          element.setAttribute(attribute, language === "en" ? (englishText[value] || value) : value);
+        });
+      });
+
+      languageOptions.forEach(option => option.setAttribute("aria-checked", String(option.dataset.language === language)));
+      languageToggle.setAttribute("aria-label", language === "ar" ? "اختيار اللغة" : "Choose language");
+      updateThemeButton();
+      if (typeof updateGovernorateInfo === "function") updateGovernorateInfo();
+      if (typeof updateQuizLanguage === "function") updateQuizLanguage();
+      if (typeof filterCards === "function") filterCards();
+    }
+
+    function setLanguage(language) {
+      if (language !== "ar" && language !== "en") return;
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
+      const scrollAnchor = [...document.querySelectorAll(".hero, main section[id], footer")]
+        .find(element => element.getBoundingClientRect().bottom > 0);
+      const anchorOffset = scrollAnchor ? scrollAnchor.getBoundingClientRect().top : 0;
+      localStorage.setItem("basmat-language", language);
+      applyLanguage(language);
+      languageMenu.hidden = true;
+      languageToggle.setAttribute("aria-expanded", "false");
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(scrollX, scrollY);
+      requestAnimationFrame(() => {
+        if (scrollAnchor && scrollAnchor.isConnected) {
+          window.scrollTo(scrollX, window.scrollY + scrollAnchor.getBoundingClientRect().top - anchorOffset);
+        }
+        document.documentElement.style.scrollBehavior = "";
+      });
+    }
+
+    languageToggle.addEventListener("click", () => {
+      languageMenu.hidden = !languageMenu.hidden;
+      languageToggle.setAttribute("aria-expanded", String(!languageMenu.hidden));
+    });
+    languageOptions.forEach(option => option.addEventListener("click", () => setLanguage(option.dataset.language)));
+    document.addEventListener("pointerdown", event => {
+      if (!event.target.closest(".language-control")) {
+        languageMenu.hidden = true;
+        languageToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        languageMenu.hidden = true;
+        languageToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
     const body = document.body;
     const themeToggle = document.getElementById("themeToggle");
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
     const savedTheme = localStorage.getItem("basmat-theme");
     if (savedTheme === "dark") body.classList.add("dark");
     function updateThemeButton() {
       const dark = body.classList.contains("dark");
-      themeToggle.textContent = dark ? "☀️" : "🌙";
-      themeToggle.title = dark ? "الوضع الفاتح" : "الوضع الداكن";
-      themeToggle.setAttribute("aria-label", dark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن");
+      themeToggle.textContent = dark ? "🌤️" : "🌘";
+      themeToggle.title = currentLanguage === "ar"
+        ? (dark ? "الوضع الفاتح" : "الوضع الداكن")
+        : (dark ? "Light mode" : "Dark mode");
+      themeToggle.setAttribute("aria-label", currentLanguage === "ar"
+        ? (dark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن")
+        : (dark ? "Switch to light mode" : "Switch to dark mode"));
+      themeMeta.content = dark ? "#101a18" : "#f4f7f2";
     }
     updateThemeButton();
     themeToggle.addEventListener("click", () => {
@@ -567,11 +832,11 @@
     const emptyState = document.getElementById("emptyState");
     let activeFilter = "all";
     function filterCards() {
-      const query = searchInput.value.trim().toLocaleLowerCase("ar");
+      const query = searchInput.value.trim().toLocaleLowerCase(currentLanguage);
       let shown = 0;
       cards.forEach(card => {
         const matchesFilter = activeFilter === "all" || card.dataset.category === activeFilter;
-        const matchesQuery = card.textContent.toLocaleLowerCase("ar").includes(query);
+        const matchesQuery = card.textContent.toLocaleLowerCase(currentLanguage).includes(query);
         card.hidden = !(matchesFilter && matchesQuery);
         if (!card.hidden) shown++;
       });
@@ -599,41 +864,125 @@
       "معان": "بوابة البتراء والدرب القديم؛ هنا تروي الحجارة حكاية الأنباط ومدينة وردية.",
       "العقبة": "مدينة البحر واللؤلؤ، تلتقي فيها حكايات الميناء والبحارة مع دفء الجنوب."
     };
+    const governorateNamesEnglish = {
+      "إربد": "Irbid", "عجلون": "Ajloun", "جرش": "Jerash", "المفرق": "Mafraq",
+      "البلقاء": "Balqa", "عمّان": "Amman", "الزرقاء": "Zarqa", "مادبا": "Madaba",
+      "الكرك": "Karak", "الطفيلة": "Tafilah", "معان": "Ma'an", "العقبة": "Aqaba"
+    };
+    const governoratePlacesEnglish = {
+      "إربد": "Umm Qais, Irbid's ancient mound, the Hauran plains, and northern dabkeh.",
+      "عجلون": "Ajloun Castle, oak forests, and mountain olive-growing villages.",
+      "جرش": "The ancient city, the Colonnaded Street, and the celebrated Jerash Festival.",
+      "المفرق": "Umm Al-Jimal, the northern Badia, and the stories of caravans and hospitality.",
+      "البلقاء": "Historic Salt, golden-stone homes, and stories of coexistence.",
+      "عمّان": "The Citadel, the Roman Theatre, and the many stories of Jordan's capital.",
+      "الزرقاء": "Qasr Amra, Azraq Oasis, and the old desert trade routes.",
+      "مادبا": "The mosaic map, Mount Nebo, and the traditions of handmade crafts.",
+      "الكرك": "Karak Castle, the land of Moab, and the jameed at the heart of mansaf.",
+      "الطفيلة": "Dana, Busaira, and stories of southern mountains and springs.",
+      "معان": "Petra, Wadi Musa, and the ancient road through Nabataean history.",
+      "العقبة": "Ayla, the Red Sea, and stories of the port, pearl divers, and sailors."
+    };
+    const governorateStoriesEnglish = {
+      "إربد": "Stories of northern villages and open plains, where the memory of the Hauran lives on in song and dabkeh.",
+      "عجلون": "A story of green mountains, forests, and a castle standing witness to the history of its people.",
+      "جرش": "A city of columns and ancient ruins, where history meets festivals, art, and storytelling.",
+      "المفرق": "A land of Badia hospitality and caravan stops connecting northern Jordan with the wider region.",
+      "البلقاء": "Salt's golden-stone homes and spirit of coexistence preserve the memory of this place.",
+      "عمّان": "A capital shaped by many civilizations, from the Citadel and Roman Theatre to the stories of its old neighborhoods.",
+      "الزرقاء": "A gateway to the Badia, where desert castles tell the story of ancient trade routes.",
+      "مادبا": "A mosaic of land and memory, where a craft passed down through generations bears witness to history.",
+      "الكرك": "A proud castle and the land of Moab, known for its generous people and distinctive jameed.",
+      "الطفيلة": "Mountains, springs, and old villages preserve the stories and solidarity of the south.",
+      "معان": "The gateway to Petra and the old road, where stone tells the story of the Nabataeans.",
+      "العقبة": "A city of sea and pearls, where port and seafaring stories meet the warmth of the south."
+    };
     const governorateButtons = [...document.querySelectorAll(".governorate")];
+    function updateGovernorateInfo() {
+      const selected = document.querySelector(".governorate.active") || governorateButtons[0];
+      if (!selected) return;
+      const name = selected.dataset.name;
+      document.getElementById("governorateName").textContent = currentLanguage === "en" ? governorateNamesEnglish[name] : name;
+      document.getElementById("governoratePlace").textContent = currentLanguage === "en" ? governoratePlacesEnglish[name] : selected.dataset.place;
+      document.getElementById("governorateStory").textContent = currentLanguage === "en" ? governorateStoriesEnglish[name] : governorateStories[name];
+    }
     governorateButtons.forEach(button => button.addEventListener("click", () => {
       governorateButtons.forEach(item => item.classList.toggle("active", item === button));
-      document.getElementById("governorateName").textContent = button.dataset.name;
-      document.getElementById("governoratePlace").textContent = button.dataset.place;
-      document.getElementById("governorateStory").textContent = governorateStories[button.dataset.name];
+      updateGovernorateInfo();
     }));
 
     const quizQuestions = [
-      { question: "أي محافظة تشتهر بالجميد المستخدم في المنسف؟", options: ["الكرك", "العقبة", "جرش"], answer: 0 },
-      { question: "ما الأداة الخشبية التي يُدق بها البن للقهوة العربية؟", options: ["المِهْباش", "الحَواية", "الهَوْدَج"], answer: 0 },
-      { question: "ما اسم الحلوى التي تُعد على الصاج بالسمن البلدي؟", options: ["الرشوف", "اللزاقيات", "المكمورة"], answer: 1 },
-      { question: "أي موقع أثري يُعرف بالمدينة الوردية؟", options: ["أم قيس", "البتراء", "جبل القلعة"], answer: 1 },
-      { question: "ممّ يتكون طبق الرشوف؟", options: ["الجريشة والعدس والجميد", "الأرز واللحم والجميد", "العجين والبصل وزيت الزيتون"], answer: 0 }
+      { question: { ar: "أي محافظة تشتهر بالجميد المستخدم في المنسف؟", en: "Which governorate is famous for the jameed used in mansaf?" }, options: [{ ar: "الكرك", en: "Karak" }, { ar: "العقبة", en: "Aqaba" }, { ar: "جرش", en: "Jerash" }], answer: 0 },
+      { question: { ar: "ما الأداة الخشبية التي يُدق بها البن للقهوة العربية؟", en: "Which wooden tool is used to pound coffee for Arabic coffee?" }, options: [{ ar: "المِهْباش", en: "Mihbash" }, { ar: "الحَواية", en: "Hawaya" }, { ar: "الهَوْدَج", en: "Hawdaj" }], answer: 0 },
+      { question: { ar: "ما اسم الحلوى التي تُعد على الصاج بالسمن البلدي؟", en: "Which sweet is cooked on a saj with local ghee?" }, options: [{ ar: "الرشوف", en: "Rashouf" }, { ar: "اللزاقيات", en: "Lazagiyat" }, { ar: "المكمورة", en: "Makmoura" }], answer: 1 },
+      { question: { ar: "أي موقع أثري يُعرف بالمدينة الوردية؟", en: "Which archaeological site is known as the Rose City?" }, options: [{ ar: "أم قيس", en: "Umm Qais" }, { ar: "البتراء", en: "Petra" }, { ar: "جبل القلعة", en: "The Citadel" }], answer: 1 },
+      { question: { ar: "ممّ يتكون طبق الرشوف؟", en: "What are the main ingredients of rashouf?" }, options: [{ ar: "الجريشة والعدس والجميد", en: "Cracked wheat, lentils, and jameed" }, { ar: "الأرز واللحم والجميد", en: "Rice, meat, and jameed" }, { ar: "العجين والبصل وزيت الزيتون", en: "Dough, onions, and olive oil" }], answer: 0 }
     ];
     let quizIndex = 0;
     let quizScore = 0;
     let quizLocked = false;
+    let quizFeedbackState = "";
     const quizQuestion = document.getElementById("quizQuestion");
     const quizOptions = document.getElementById("quizOptions");
     const quizFeedback = document.getElementById("quizFeedback");
     const quizProgress = document.getElementById("quizProgress");
     const quizResult = document.getElementById("quizResult");
+    function buildQuizResult() {
+      quizResult.replaceChildren();
+      const certificateTitle = document.createElement("strong");
+      certificateTitle.textContent = currentLanguage === "en" ? "Heritage Explorer Certificate 🏅" : "شهادة مستكشف التراث 🏅";
+      const certificateMessage = document.createElement("p");
+      certificateMessage.textContent = currentLanguage === "en"
+        ? `You answered ${quizScore} out of ${quizQuestions.length} questions correctly. Thank you for keeping our stories alive!`
+        : "أجبت إجابة صحيحة عن " + quizScore + " من " + quizQuestions.length + " أسئلة. شكرًا لأنك تحفظ حكايتنا!";
+      const restart = document.createElement("button");
+      restart.type = "button";
+      restart.className = "button button-outline";
+      restart.textContent = currentLanguage === "en" ? "Try again" : "جرّب مرة ثانية";
+      restart.addEventListener("click", () => {
+        quizIndex = 0;
+        quizScore = 0;
+        quizResult.classList.remove("show");
+        renderQuestion();
+      });
+      quizResult.append(certificateTitle, certificateMessage, restart);
+    }
+    function updateQuizLanguage() {
+      if (quizIndex >= quizQuestions.length) {
+        quizQuestion.textContent = currentLanguage === "en" ? "Quiz complete — well done!" : "اكتمل الاختبار — يعطيك العافية!";
+        if (quizResult.classList.contains("show")) buildQuizResult();
+        return;
+      }
+      const item = quizQuestions[quizIndex];
+      quizQuestion.textContent = currentLanguage === "en"
+        ? `${quizIndex + 1} of ${quizQuestions.length} — ${item.question.en}`
+        : `${quizIndex + 1} / ${quizQuestions.length} — ${item.question.ar}`;
+      [...quizOptions.children].forEach((button, index) => {
+        button.textContent = item.options[index][currentLanguage];
+      });
+      quizFeedback.textContent = quizFeedbackState === "correct"
+        ? (currentLanguage === "en" ? "Correct! Well done 👏" : "إجابة صحيحة! أحسنت 👏")
+        : quizFeedbackState === "wrong"
+          ? (currentLanguage === "en" ? "Not quite. The correct answer is highlighted in green." : "قريب! الجواب الصحيح مميز باللون الأخضر.")
+          : "";
+    }
     function renderQuestion() {
+      if (quizIndex >= quizQuestions.length) {
+        updateQuizLanguage();
+        return;
+      }
       const item = quizQuestions[quizIndex];
       quizLocked = false;
+      quizFeedbackState = "";
       quizFeedback.textContent = "";
       quizProgress.style.width = (quizIndex / quizQuestions.length * 100) + "%";
-      quizQuestion.textContent = (quizIndex + 1) + " / " + quizQuestions.length + " — " + item.question;
+      updateQuizLanguage();
       quizOptions.replaceChildren();
       item.options.forEach((option, index) => {
         const button = document.createElement("button");
         button.className = "quiz-option";
         button.type = "button";
-        button.textContent = option;
+        button.textContent = option[currentLanguage];
         button.addEventListener("click", () => answerQuestion(index, button));
         quizOptions.append(button);
       });
@@ -648,42 +997,27 @@
       });
       if (index === correct) {
         quizScore++;
-        quizFeedback.textContent = "إجابة صحيحة! أحسنت 👏";
+        quizFeedbackState = "correct";
       } else {
         selectedButton.classList.add("wrong");
-        quizFeedback.textContent = "قريب! الجواب الصحيح مميز باللون الأخضر.";
+        quizFeedbackState = "wrong";
       }
+      updateQuizLanguage();
       window.setTimeout(() => {
         quizIndex++;
         if (quizIndex < quizQuestions.length) {
           renderQuestion();
         } else {
           quizProgress.style.width = "100%";
-          quizQuestion.textContent = "اكتمل الاختبار — يعطيك العافية!";
           quizOptions.replaceChildren();
           quizFeedback.textContent = "";
           quizResult.classList.add("show");
-          quizResult.replaceChildren();
-          const certificateTitle = document.createElement("strong");
-          certificateTitle.textContent = "شهادة مستكشف التراث 🏅";
-          const certificateMessage = document.createElement("p");
-          certificateMessage.textContent = "أجبت إجابة صحيحة عن " + quizScore + " من " + quizQuestions.length + " أسئلة. شكرًا لأنك تحفظ حكايتنا!";
-          quizResult.append(certificateTitle, certificateMessage);
-          const restart = document.createElement("button");
-          restart.type = "button";
-          restart.className = "button button-outline";
-          restart.textContent = "جرّب مرة ثانية";
-          restart.addEventListener("click", () => {
-            quizIndex = 0;
-            quizScore = 0;
-            quizResult.classList.remove("show");
-            renderQuestion();
-          });
-          quizResult.append(restart);
+          updateQuizLanguage();
         }
       }, 1000);
     }
     renderQuestion();
+    applyLanguage(currentLanguage);
   </script>
 </body>
 </html>
